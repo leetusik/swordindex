@@ -256,6 +256,47 @@
             cursor: pointer;
             padding: 0.5rem;
         }
+
+        /* Add this new class */
+        .desktop-only {
+            display: inline-flex;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-only {
+                display: none;
+            }
+
+            .cta-buttons {
+                display: none;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                padding: 1rem 5%;
+                background: white;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .cta-buttons.active {
+                display: flex;
+            }
+
+            /* Update hero section buttons spacing */
+            .hero .cta-buttons {
+                position: static;
+                display: flex;
+                box-shadow: none;
+                padding: 0;
+                gap: 1rem;
+            }
+
+            .hero .btn {
+                width: auto;
+            }
+        }
     </style>
 </head>
 <body>
@@ -271,7 +312,7 @@
         <div class="menu-toggle">☰</div>
         <div class="cta-buttons">
             <a href="#login" class="btn btn-secondary">Login</a>
-            <a href="#demo" class="btn btn-primary">Request Demo</a>
+            <a href="#demo" class="btn btn-primary desktop-only">Request Demo</a>
         </div>
     </nav>
 
