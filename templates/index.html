@@ -140,16 +140,42 @@
         }
 
         @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
             .nav-links {
                 display: none;
             }
 
-            .hero h1 {
-                font-size: 2.5rem;
+            .navbar {
+                padding: 0.75rem 5%;
             }
 
-            .hero p {
-                font-size: 1.25rem;
+            .cta-buttons {
+                display: none;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                padding: 1rem 5%;
+                background: white;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .cta-buttons.active {
+                display: flex;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .hero {
+                padding-top: 6rem;
             }
         }
 
@@ -222,6 +248,14 @@
             from { transform: translateY(-100px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
+
+        /* Add hamburger menu icon */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -234,6 +268,7 @@
             <a href="#developers">Developers</a>
             <a href="#resources">Resources</a>
         </div>
+        <div class="menu-toggle">☰</div>
         <div class="cta-buttons">
             <a href="#login" class="btn btn-secondary">Login</a>
             <a href="#demo" class="btn btn-primary">Request Demo</a>
@@ -306,6 +341,21 @@
                 closeModal();
             }
         }
+
+        // Add mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const ctaButtons = document.querySelector('.cta-buttons');
+
+        menuToggle.addEventListener('click', () => {
+            ctaButtons.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar')) {
+                ctaButtons.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html> 
