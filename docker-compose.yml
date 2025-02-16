@@ -21,6 +21,10 @@ services:
       - postgres_data:/var/lib/postgresql/data
     env_file:
       - .env
+    networks:
+      - app-network
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
     restart: always
 
 volumes:

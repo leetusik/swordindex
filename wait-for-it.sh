@@ -3,14 +3,16 @@
 
 set -e
 
-host="$1"
-shift
-cmd="$@"
+echo "Waiting for PostgreSQL..."
+echo "DB_HOST: $DB_HOST"
+echo "DB_PORT: $DB_PORT"
+echo "DB_NAME: $DB_NAME"
+echo "DB_USER: $DB_USER"
 
-until PGPASSWORD=$DB_PASSWORD psql -h "db" -p 5432 -U "$DB_USER" -d "$DB_NAME" -c '\q'; do
-  >&2 echo "Postgres is unavailable - sleeping"
+until PGPASSWORD=$DB_PASSWORD psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -c '\l'; do
+  echo "Postgres is unavailable - sleeping"
   sleep 1
 done
 
->&2 echo "Postgres is up - executing command"
-exec $cmd 
+echo "PostgreSQL is up - executing command"
+exec "$@" 
