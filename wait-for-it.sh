@@ -3,6 +3,10 @@
 
 set -e
 
+host="$1"
+shift
+cmd="$@"
+
 echo "Waiting for PostgreSQL..."
 echo "DB_HOST: $DB_HOST"
 echo "DB_PORT: $DB_PORT"
@@ -15,4 +19,4 @@ until PGPASSWORD=$DB_PASSWORD psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d 
 done
 
 echo "PostgreSQL is up - executing command"
-exec "$@" 
+exec $cmd 
