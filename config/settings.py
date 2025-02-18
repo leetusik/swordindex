@@ -31,15 +31,22 @@ ALLOWED_HOSTS = ["swordindex.com", "44.211.46.128"] if not DEBUG else ["*"]
 
 # Application definition
 
-INSTALLED_APPS = [
+# Django built-in apps
+DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+]
+
+# Local apps
+LOCAL_APPS = [
     "emails",
 ]
+
+INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
