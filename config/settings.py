@@ -138,21 +138,25 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-
 STATIC_URL = "static/"
 
-# Add this after STATIC_URL setting
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static",
-# ]
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-STATIC_ROOT = BASE_DIR / "staticfiles"
+# Explicitly set STATICFILES_DIRS with absolute paths
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+# Make sure STATIC_ROOT is an absolute path
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Define which finders Django uses to locate static files
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
+
+# Use simple StaticFilesStorage for both development and production
+# This avoids manifest issues that can occur with ManifestStaticFilesStorage
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
