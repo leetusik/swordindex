@@ -33,11 +33,17 @@ def submit_form(request):
             content=content,
         )
 
-        # Return success message
+        # Return success message with JavaScript to clear the form
         return HttpResponse(
             '<div class="mt-4 p-4 bg-primary/10 border border-primary rounded-lg text-center">'
             "문의가 성공적으로 제출되었습니다. 곧 연락드리겠습니다."
             "</div>"
+            "<script>"
+            'document.getElementById("comp").value = "";'
+            'document.getElementById("name").value = "";'
+            'document.getElementById("mail").value = "";'
+            'document.getElementById("cont").value = "";'
+            "</script>"
         )
 
     except Exception as e:
