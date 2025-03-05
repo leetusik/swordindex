@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static Files Test</title>
+    <link rel="icon" href="{% static 'favicon/favicon.svg' %}" type="image/svg+xml">
+    <script src="{% static 'js/script.js' %}" defer></script>
+</head>
+<body style="background-color: #333; color: white; font-family: Arial, sans-serif; padding: 20px;">
+    <h1>Static Files Test</h1>
+    
+    <h2>Images</h2>
+    <div>
+        <p>Logo (PNG):</p>
+        <img src="{% static 'img/logo.png' %}" alt="Logo" style="border: 2px solid red;">
+    </div>
+    
+    <div>
+        <p>Icon1 (PNG):</p>
+        <img src="{% static 'img/icon1.png' %}" alt="Icon 1" style="border: 2px solid green;">
+    </div>
+    
+    <div>
+        <p>Logo as JPG:</p>
+        <img src="{% static 'img/logo_test.jpg' %}" alt="Logo JPG" style="border: 2px solid yellow;">
+    </div>
+    
+    <div>
+        <p>Direct URL to logo (without static tag):</p>
+        <img src="/static/img/logo.png" alt="Logo Direct" style="border: 2px solid blue;">
+    </div>
+    
+    <div>
+        <p>Direct image from view:</p>
+        <img src="{% url 'direct_image' %}" alt="Direct Image" style="border: 2px solid purple;">
+    </div>
+    
+    <h2>JavaScript</h2>
+    <button id="test-js-btn">Test JavaScript</button>
+    <p id="js-result">JavaScript not working</p>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.getElementById('test-js-btn');
+            const result = document.getElementById('js-result');
+            
+            if (btn && result) {
+                btn.addEventListener('click', function() {
+                    result.textContent = 'JavaScript is working!';
+                    result.style.color = 'green';
+                });
+                
+                // Show that JS loaded
+                result.textContent = 'JavaScript loaded (click button to test)';
+                result.style.color = 'yellow';
+            }
+        });
+    </script>
+</body>
+</html> 

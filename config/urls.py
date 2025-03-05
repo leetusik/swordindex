@@ -25,4 +25,6 @@ urlpatterns = [
     path("emails/", include("emails.urls")),
     path("asks/", include("asks.urls")),
     path("privacy-policy/", views.privacy_policy, name="privacy_policy"),
+    path("test-static/", views.test_static, name="test_static"),
+    path("direct-image/", views.direct_image, name="direct_image"),
 ]
