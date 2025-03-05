@@ -25,6 +25,10 @@ RUN chmod +x /wait-for-it.sh
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
+# Ensure proper permissions for static files
+RUN chmod -R 755 /app/staticfiles
+RUN find /app/staticfiles/img -type f -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.gif" -o -name "*.svg" | xargs ls -la
+
 # Configure nginx
 COPY nginx.conf /etc/nginx/sites-available/default
 RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
