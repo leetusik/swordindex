@@ -3,6 +3,21 @@
  * Handles modal functionality, mobile menu, and other interactive elements
  */
 
+// Modal functionality - Explicitly expose to global scope
+window.openModal = function () {
+  const modal = document.getElementById("privacyModal");
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+  document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
+};
+
+window.closeModal = function () {
+  const modal = document.getElementById("privacyModal");
+  modal.classList.remove("flex");
+  modal.classList.add("hidden");
+  document.body.style.overflow = ""; // Restore scrolling
+};
+
 // Mobile menu functionality
 document.addEventListener("DOMContentLoaded", function () {
   const menuToggle = document.getElementById("mobile-menu-toggle");
@@ -54,25 +69,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-});
 
-// Modal functionality
-function openModal() {
-  const modal = document.getElementById("privacyModal");
-  modal.classList.remove("hidden");
-  modal.classList.add("flex");
-  document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
-}
-
-function closeModal() {
-  const modal = document.getElementById("privacyModal");
-  modal.classList.remove("flex");
-  modal.classList.add("hidden");
-  document.body.style.overflow = ""; // Restore scrolling
-}
-
-// Close modal when clicking outside of content
-document.addEventListener("DOMContentLoaded", function () {
+  // Close modal when clicking outside of content
   const modal = document.getElementById("privacyModal");
   if (modal) {
     modal.addEventListener("click", function (event) {
