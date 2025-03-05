@@ -1,96 +1,293 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XV0T2SF8M8"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-XV0T2SF8M8');
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SwordIndex - AI-Powered Search Solutions</title>
-    
-    {% load static %}
+    <title>Swordindex - AI 기반 검색 솔루션</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="{% static 'favicon/favicon.svg' %}">
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="icon" href="{% static 'favicon/favicon.svg' %}" type="image/svg+xml">
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    <!-- Custom Script -->
+    <script src="{% static 'js/script.js' %}" defer></script>
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#375DE8',
+                        dark: '#111111',
+                        light: '#FFFFFF',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-    <nav class="navbar">
-        <div class="logo">SwordIndex</div>
-        <div class="nav-links">
-            <a href="#solutions">Solutions</a>
-            <a href="#industries">Industries</a>
-            <a href="#pricing">Pricing</a>
-            <a href="#developers">Developers</a>
-            <a href="#resources">Resources</a>
+<body class="bg-black text-white">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="{% static 'img/Group 109.png' %}" alt="LOGO" class="h-10">
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="text-white hover:text-primary transition">홈</a>
+                <a href="#features" class="text-white hover:text-primary transition">특징</a>
+                <a href="#contact" class="text-white hover:text-primary transition">문의하기</a>
+            </nav>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-toggle" class="md:hidden text-white text-2xl">
+                ☰
+            </button>
         </div>
-        <div class="menu-toggle">☰</div>
-        <div class="cta-buttons">
-            <a href="#login" class="btn btn-secondary">Login</a>
-            <a href="#demo" class="btn btn-primary desktop-only">Request Demo</a>
-        </div>
-    </nav>
+        
+        <!-- Mobile Navigation -->
+        <nav id="mobile-menu" class="hidden bg-dark md:hidden">
+            <div class="container mx-auto px-4 py-2">
+                <a href="#" class="block py-3 text-white hover:text-primary border-b border-gray-800">홈</a>
+                <a href="#features" class="block py-3 text-white hover:text-primary border-b border-gray-800">특징</a>
+                <a href="#contact" class="block py-3 text-white hover:text-primary">문의하기</a>
+            </div>
+        </nav>
+    </header>
 
-    <section class="hero">
-        <h1>Show users<br>what they need</h1>
-        <p>with AI search that understands them</p>
-        <form id="waitlistForm" class="waitlist-form">
-            {% csrf_token %}
-            <input 
-                type="email" 
-                id="emailInput" 
-                placeholder="Enter your email" 
-                required
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-            >
-            <button type="submit" class="btn btn-primary">Join Waitlist</button>
-        </form>
-    </section>
+    <main>
+        <!-- Hero Section -->
+        <section class="py-16 md:py-24">
+            <div class="container mx-auto px-4">
+                <div class="max-w-3xl">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                        검색, 더 스마트하게!<br>
+                        <span class="text-primary">AI 기반 검색</span> 솔루션으로<br>
+                        고객 전환율을 높이세요.
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-300 mb-8">
+                        AI 솔루션으로 고객이 원하는 상품을 정확하게 찾고, 구매 전환율을 높입니다.<br class="hidden md:block">
+                        지금까지의 검색과는 다른 고객이 찾지 못했던 제품을 AI가 추천해 드립니다.
+                    </p>
+                    <a href="#contact" class="inline-block bg-primary hover:bg-primary/90 text-white font-medium py-3 px-8 rounded-lg transition-all">
+                        문의하기
+                    </a>
+                </div>
+            </div>
+        </section>
 
-    <section class="features">
-        <div class="feature-card">
-            <h3>Easy to use</h3>
-            <p>Implement our APIs in minutes and gain easy control over rankings.</p>
-        </div>
-        <div class="feature-card">
-            <h3>Lightning Fast</h3>
-            <p>Search as quick as you type, with the fastest enterprise AI search.</p>
-        </div>
-        <div class="feature-card">
-            <h3>Highly Scalable</h3>
-            <p>Use the search engine trusted with billions of queries per year.</p>
-        </div>
-    </section>
+        <!-- Features Section -->
+        <section id="features" class="py-16 bg-gradient-to-b from-black to-primary/10">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">
+                    AI 검색 솔루션, 이렇게 달라집니다!
+                </h2>
+                <div class="w-24 h-1 bg-primary mx-auto mb-16 rounded-full"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Feature 1 -->
+                    <div class="bg-white rounded-xl p-8 hover:shadow-xl transition border border-primary/20 shadow-lg">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-20 h-20 flex items-center justify-center bg-primary/20 rounded-full mb-6">
+                                <img src="{% static 'img/icon1.png' %}" alt="유사 상품 자동 추천" class="w-12 h-12">
+                            </div>
+                            <h3 class="text-xl font-bold mb-4 text-dark">유사 상품 자동<br>추천</h3>
+                            <p class="text-gray-600">고객이 정확한 키워드를 입력하지 않아도 유사 상품 자동 추천</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Feature 2 -->
+                    <div class="bg-white rounded-xl p-8 hover:shadow-xl transition border border-primary/20 shadow-lg">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-20 h-20 flex items-center justify-center bg-primary/20 rounded-full mb-6">
+                                <img src="{% static 'img/icon2.png' %}" alt="이탈율 감소" class="w-12 h-12">
+                            </div>
+                            <h3 class="text-xl font-bold mb-4 text-dark">이탈율 감소</h3>
+                            <p class="text-gray-600">쇼핑몰 검색 정확도 30% 향상, 이탈율 25% 감소</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Feature 3 -->
+                    <div class="bg-white rounded-xl p-8 hover:shadow-xl transition border border-primary/20 shadow-lg">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-20 h-20 flex items-center justify-center bg-primary/20 rounded-full mb-6">
+                                <img src="{% static 'img/icon3.png' %}" alt="구매율 증가" class="w-12 h-12">
+                            </div>
+                            <h3 class="text-xl font-bold mb-4 text-dark">구매율 증가</h3>
+                            <p class="text-gray-600">AI 기반으로 검색 결과를 개인화하여 구매율 증가</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <div id="comingSoonModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Coming Soon!</h2>
-            <p>We're working hard to bring you something amazing. Stay tuned for updates!</p>
-            <a href="javascript:void(0)" class="btn btn-primary" onclick="closeModal()">Got it!</a>
+        <!-- Key Features Section -->
+        <section class="py-16 bg-gradient-to-b from-primary/10 to-black">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Key Features</h2>
+                    <div class="w-24 h-1 bg-primary mx-auto mb-6 rounded-full"></div>
+                    <p class="text-xl text-center text-white mb-12">고객이 원하는 검색 결과를 정확하게 제공해, 구매 전환율을 높이세요!</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Key Feature 1 -->
+                        <div class="bg-white rounded-lg p-6 hover:shadow-xl transition-all duration-300 border border-primary/20 shadow-lg group">
+                            <div class="flex items-start">
+                                <div class="bg-primary/20 rounded-full p-3 mr-4 group-hover:bg-primary/30 transition-all">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-primary mb-2">키워드 자동 보완</h3>
+                                    <p class="text-gray-600">오타가 있어도, 연관 상품 자동 추천</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Key Feature 2 -->
+                        <div class="bg-white rounded-lg p-6 hover:shadow-xl transition-all duration-300 border border-primary/20 shadow-lg group">
+                            <div class="flex items-start">
+                                <div class="bg-primary/20 rounded-full p-3 mr-4 group-hover:bg-primary/30 transition-all">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-primary mb-2">AI 추천 검색어</h3>
+                                    <p class="text-gray-600">고객의 검색 패턴을 분석해 최적의 결과</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Key Feature 3 -->
+                        <div class="bg-white rounded-lg p-6 hover:shadow-xl transition-all duration-300 border border-primary/20 shadow-lg group">
+                            <div class="flex items-start">
+                                <div class="bg-primary/20 rounded-full p-3 mr-4 group-hover:bg-primary/30 transition-all">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-primary mb-2">개인 맞춤 검색 결과</h3>
+                                    <p class="text-gray-600">고객의 검색 패턴을 분석해 최적의 결과 제공</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Key Feature 4 -->
+                        <div class="bg-white rounded-lg p-6 hover:shadow-xl transition-all duration-300 border border-primary/20 shadow-lg group">
+                            <div class="flex items-start">
+                                <div class="bg-primary/20 rounded-full p-3 mr-4 group-hover:bg-primary/30 transition-all">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-primary mb-2">유사 상품 추천</h3>
+                                    <p class="text-gray-600">고객이 원하는 제품을 더 빠르게 찾도록 지원</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-16 bg-black">
+            <div class="container mx-auto px-4">
+                <div class="max-w-2xl mx-auto bg-dark/30 rounded-xl p-8">
+                    <h2 class="text-3xl font-bold text-center mb-8">Contact us</h2>
+                    
+                    <form action="{% url 'asks:submit_form' %}" method="post" hx-post="{% url 'asks:submit_form' %}" hx-target="#form-response" hx-swap="outerHTML" class="space-y-6">
+                        {% csrf_token %}
+                        <!-- Company Field -->
+                        <div>
+                            <label for="comp" class="block text-sm font-medium text-gray-300 mb-1">소속</label>
+                            <input type="text" name="comp" id="comp" placeholder="소속을 입력해주세요"
+                                class="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+
+                        <!-- Name Field -->
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-300 mb-1">이름*</label>
+                            <input type="text" name="name" id="name" placeholder="이름을 입력해주세요" required
+                                class="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                        
+                        <!-- Email Field -->
+                        <div>
+                            <label for="mail" class="block text-sm font-medium text-gray-300 mb-1">이메일*</label>
+                            <input type="email" name="mail" id="mail" placeholder="메일을 입력해주세요" required
+                                class="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                        </div>
+                        
+                        <!-- Content Field -->
+                        <div>
+                            <label for="cont" class="block text-sm font-medium text-gray-300 mb-1">문의내용*</label>
+                            <textarea name="cont" id="cont" placeholder="문의내용을 입력해 주세요" required rows="4"
+                                class="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-y"></textarea>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div>
+                            <button type="submit" 
+                                class="w-full bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-all">
+                                문의하기
+                            </button>
+                        </div>
+                        
+                        <div id="form-response"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark py-10 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <img src="{% static 'img/Group 109.png' %}" alt="LOGO" class="h-10 mb-4">
+                    <p class="text-gray-400 text-sm">swordindex @ 2025. All rights reserved.</p>
+                </div>
+                
+                <div class="text-center md:text-right">
+                    <p class="text-gray-400 text-sm mb-2">
+                        대표 차재민 | 서울특별시 종로구 율곡로 174
+                    </p>
+                    <p class="text-gray-400 text-sm flex flex-wrap justify-center md:justify-end gap-x-4">
+                        <span>010 3772 9916</span>
+                        <a href="javascript:void(0)" 
+                           hx-get="{% url 'privacy_policy' %}" 
+                           hx-target="#modalContent" 
+                           hx-trigger="click" 
+                           hx-swap="innerHTML" 
+                           onclick="openModal()" 
+                           class="text-primary hover:underline">
+                            개인정보처리방침
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="privacyModal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+        <div class="bg-dark max-w-2xl w-full max-h-[80vh] overflow-y-auto rounded-xl">
+            <div class="flex justify-between items-center p-6 border-b border-gray-700">
+                <h3 class="text-xl font-bold">개인정보 처리방침</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <div id="modalContent" class="p-6"></div>
         </div>
     </div>
-
-    <div id="thankYouModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2>Thank You!</h2>
-            <p>You've been added to our waitlist. We'll notify you when we launch!</p>
-            <a href="javascript:void(0)" class="btn btn-primary" onclick="closeThankYouModal(); return false;">Got it!</a>
-        </div>
-    </div>
-
-    <!-- Scripts -->
-    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html> 

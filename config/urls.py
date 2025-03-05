@@ -23,4 +23,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.index, name="index"),
     path("emails/", include("emails.urls")),
+    path("asks/", include("asks.urls")),
+    path("privacy-policy/", views.privacy_policy, name="privacy_policy"),
 ]

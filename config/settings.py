@@ -44,6 +44,7 @@ DJANGO_APPS = [
 # Local apps
 LOCAL_APPS = [
     "emails",
+    "asks",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS
