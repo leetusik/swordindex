@@ -22,12 +22,18 @@ COPY . .
 COPY wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 
+# Make sure the staticfiles directory exists
+RUN mkdir -p /app/staticfiles
+
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
+# Explicitly copy image files to ensure they are included
+RUN if [ -d /app/static/img ]; then mkdir -p /app/staticfiles/img && cp -r /app/static/img/* /app/staticfiles/img/; fi
+
 # Ensure proper permissions for static files
 RUN chmod -R 755 /app/staticfiles
-RUN find /app/staticfiles/img -type f -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.gif" -o -name "*.svg" | xargs ls -la
+RUN find /app/staticfiles -type f -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.gif" -o -name "*.svg" | xargs chmod 644
 
 # Configure nginx
 COPY nginx.conf /etc/nginx/sites-available/default
