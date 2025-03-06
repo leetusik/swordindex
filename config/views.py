@@ -1,8 +1,11 @@
+import json
 import os
 
 from django.conf import settings
-from django.http import FileResponse, HttpResponse
+from django.http import FileResponse, HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 
 def index(request):
@@ -17,6 +20,19 @@ def privacy_policy(request):
 def test_static(request):
     """Test page for static files"""
     return render(request, "test_static.html")
+
+
+@csrf_exempt
+@require_POST
+def handle_kimchi(request):
+    """Handle the kimchi API request"""
+    try:
+        data = json.loads(request.body)
+        if data.get("keyword"):
+            return JsonResponse({"response": data.get("keyword") + " kimchi"})
+        return JsonResponse({"error": "Invalid keyword"}, status=400)
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "Invalid JSON"}, status=400)
 
 
 def direct_image(request):
