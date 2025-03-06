@@ -491,6 +491,29 @@
                     });
                 }
             }
+            
+            // Mobile Menu Toggle
+            const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+            const mobileMenu = document.getElementById("mobile-menu");
+            
+            if (mobileMenuToggle && mobileMenu) {
+                console.log("Mobile menu components found");
+                
+                mobileMenuToggle.addEventListener("click", function() {
+                    console.log("Mobile menu toggle clicked");
+                    mobileMenu.classList.toggle("hidden");
+                });
+                
+                // Close menu when clicking a link
+                const mobileMenuLinks = mobileMenu.querySelectorAll("a");
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener("click", function() {
+                        mobileMenu.classList.add("hidden");
+                    });
+                });
+            } else {
+                console.log("Mobile menu components not found");
+            }
         });
     </script>
 </body>

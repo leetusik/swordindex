@@ -16,6 +16,10 @@ sleep 10
 echo "Checking container status..."
 docker-compose ps
 
+# Run collectstatic to ensure all static files are collected
+echo "Collecting static files..."
+docker-compose exec web python manage.py collectstatic --noinput
+
 # Check Nginx logs for any errors
 echo "Checking Nginx logs for errors..."
 docker-compose exec web bash -c "tail -n 50 /var/log/nginx/error.log"
