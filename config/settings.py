@@ -206,11 +206,11 @@ else:  # Development settings
     SECURE_HSTS_PRELOAD = False
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = False  # More secure to specify allowed origins
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",
-    "http://127.0.0.1:8080",
-]
+CORS_ALLOW_ALL_ORIGINS = True  # More secure to specify allowed origins
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:8080",
+#     "http://127.0.0.1:8080",
+# ]
 CORS_ALLOW_METHODS = [
     "DELETE",
     "GET",

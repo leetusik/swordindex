@@ -20,8 +20,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- HTMX -->
     <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
-    <!-- Custom Script -->
-    <script src="{% static 'js/script.js' %}" defer></script>
     <!-- Tailwind Config -->
     <script>
         tailwind.config = {
@@ -36,6 +34,24 @@
             }
         }
     </script>
+    <!-- Custom CSS -->
+    <style>
+        /* Carousel Styles */
+        #carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+        
+        #carousel-inner > div {
+            width: 100%;
+            flex: 0 0 100%;
+        }
+        
+        .slide-indicator.active {
+            background-color: white;
+        }
+    </style>
 </head>
 <body class="bg-black text-white">
     <!-- Header -->
@@ -85,6 +101,51 @@
                     <a href="#contact" class="inline-block bg-primary hover:bg-primary/90 text-white font-medium py-3 px-8 rounded-lg transition-all">
                         문의하기
                     </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Carousel Section -->
+        <section class="py-16 bg-black">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">
+                    이런 문제를 겪고 있나요?
+                </h2>
+                <div class="w-24 h-1 bg-primary mx-auto mb-16 rounded-full"></div>
+                
+                <!-- Carousel Container -->
+                <div class="relative max-w-6xl mx-auto">
+                    <!-- Carousel Slides -->
+                    <div id="carousel" class="overflow-hidden rounded-xl shadow-2xl bg-black">
+                        <div class="flex w-full transition-transform duration-500 ease-in-out" id="carousel-inner" style="width: 100%; display: flex; flex-wrap: nowrap;">
+                            <!-- Slide 1 -->
+                            <div class="w-full flex-none" style="flex: 0 0 100%;">
+                                <img src="{% static 'img/carousel/01.png' %}" alt="Slide 1" class="w-full h-auto">
+                            </div>
+                            <!-- Slide 2 -->
+                            <div class="w-full flex-none" style="flex: 0 0 100%;">
+                                <img src="{% static 'img/carousel/02.png' %}" alt="Slide 2" class="w-full h-auto">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation Arrows -->
+                    <button id="prev-btn" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white/60 hover:text-white/90 rounded-full p-2 focus:outline-none transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button id="next-btn" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white/60 hover:text-white/90 rounded-full p-2 focus:outline-none transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    
+                    <!-- Indicators -->
+                    <div class="flex justify-center mt-6 space-x-3">
+                        <button class="w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 slide-indicator" data-index="0"></button>
+                        <button class="w-3 h-3 rounded-full bg-white/30 hover:bg-white/80 slide-indicator" data-index="1"></button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -314,6 +375,123 @@
             modal.classList.add("hidden");
             document.body.style.overflow = ""; // Restore scrolling
         }
+    </script>
+
+    <!-- Carousel JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get carousel elements
+            const carousel = document.getElementById("carousel");
+            const carouselInner = document.getElementById("carousel-inner");
+            const prevBtn = document.getElementById("prev-btn");
+            const nextBtn = document.getElementById("next-btn");
+            const indicators = document.querySelectorAll(".slide-indicator");
+            
+            // Check if carousel elements exist
+            if (!carousel || !carouselInner) {
+                console.log("Primary carousel elements not found");
+                return;
+            }
+            
+            console.log("Carousel found:", carousel);
+            console.log("Carousel inner found:", carouselInner);
+            
+            let currentIndex = 0;
+            const slideCount = carouselInner.children.length;
+            
+            console.log("Carousel initialized with", slideCount, "slides");
+            
+            // Initialize carousel
+            updateCarousel();
+            
+            // Next slide button
+            if (nextBtn) {
+                nextBtn.addEventListener("click", function() {
+                    console.log("Next button clicked");
+                    currentIndex = (currentIndex + 1) % slideCount;
+                    updateCarousel();
+                });
+            }
+            
+            // Previous slide button
+            if (prevBtn) {
+                prevBtn.addEventListener("click", function() {
+                    console.log("Prev button clicked");
+                    currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+                    updateCarousel();
+                });
+            }
+            
+            // Indicator buttons
+            if (indicators.length > 0) {
+                indicators.forEach((indicator, idx) => {
+                    indicator.addEventListener("click", function() {
+                        console.log("Indicator clicked:", idx);
+                        currentIndex = parseInt(this.dataset.index || idx);
+                        updateCarousel();
+                    });
+                });
+            }
+            
+            // Touch and swipe support for mobile
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            // Touch start event
+            carousel.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            
+            // Touch end event
+            carousel.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, { passive: true });
+            
+            // Handle swipe direction
+            function handleSwipe() {
+                const swipeThreshold = 50; // Minimum distance to consider as swipe
+                const swipeDistance = touchEndX - touchStartX;
+                
+                // Check if swipe distance exceeds threshold
+                if (Math.abs(swipeDistance) < swipeThreshold) {
+                    return; // Not a significant swipe
+                }
+                
+                console.log("Swipe detected:", swipeDistance);
+                
+                if (swipeDistance > 0) {
+                    // Swipe right - go to previous slide
+                    currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+                } else {
+                    // Swipe left - go to next slide
+                    currentIndex = (currentIndex + 1) % slideCount;
+                }
+                
+                updateCarousel();
+            }
+            
+            // Function to update carousel position and indicators
+            function updateCarousel() {
+                console.log("Updating carousel to index:", currentIndex);
+                
+                // Update slide position
+                carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // Update indicators
+                if (indicators.length > 0) {
+                    indicators.forEach((indicator, index) => {
+                        if (index === currentIndex) {
+                            indicator.classList.add("bg-white");
+                            indicator.classList.remove("bg-white/50");
+                        } else {
+                            indicator.classList.remove("bg-white");
+                            indicator.classList.add("bg-white/50");
+                        }
+                    });
+                }
+            }
+        });
     </script>
 </body>
 </html> 

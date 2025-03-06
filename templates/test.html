@@ -1,0 +1,582 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple-Style Carousel Test Page</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#375DE8',
+                        dark: '#111111',
+                        light: '#FFFFFF',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Base styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Apple-style card carousel */
+        .rs-cardsshelf {
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+        
+        .rs-cards-shelf-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .rs-cards-shelf-mainheader {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .rs-cards-shelf-secondaryheader {
+            font-size: 21px;
+            color: #86868b;
+        }
+        
+        .rf-cards-scroller {
+            position: relative;
+            margin: 0 auto;
+            max-width: 1440px;
+        }
+        
+        .rf-cards-scroller-crop {
+            overflow: hidden;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .rf-cards-scroller-content {
+            overflow-x: scroll;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            white-space: nowrap;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+        .rf-cards-scroller-content::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        
+        .rf-cards-scroller-platter {
+            display: flex;
+            padding: 0 10px;
+        }
+        
+        .rf-cards-scroller-itemview {
+            flex: 0 0 auto;
+            width: 480px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+        
+        .rf-ccard {
+            background-color: #fff;
+            border-radius: 18px;
+            overflow: hidden;
+            height: 500px;
+            position: relative;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .rf-ccard:hover {
+            transform: scale(1.02);
+        }
+        
+        .rf-ccard-img-full-wrapper {
+            height: 65%;
+            overflow: hidden;
+        }
+        
+        .rf-ccard-img-full {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .rf-ccard-content-info {
+            padding: 20px;
+            height: 35%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .rf-ccard-content-header-eyebrow {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6e6e73;
+            margin-bottom: 6px;
+        }
+        
+        .rf-ccard-content-header {
+            font-size: 21px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+        
+        .rf-ccard-content-desc {
+            font-size: 17px;
+            color: #6e6e73;
+            line-height: 1.4;
+        }
+        
+        /* Navigation arrows */
+        .paddlenav {
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            pointer-events: none;
+            padding: 0 20px;
+        }
+        
+        .paddlenav-arrow {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .paddlenav-arrow:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+        
+        .paddlenav-arrow svg {
+            width: 12px;
+            height: 12px;
+            fill: #1d1d1f;
+        }
+        
+        .visuallyhidden {
+            position: absolute;
+            clip: rect(1px, 1px, 1px, 1px);
+            clip-path: inset(0px 0px 99.9% 99.9%);
+            overflow: hidden;
+            height: 1px;
+            width: 1px;
+            padding: 0;
+            border: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-[#1d1d1f]">
+    <header class="bg-white py-4 border-b border-gray-200">
+        <div class="container mx-auto px-4">
+            <h1 class="text-2xl font-semibold">Apple-Style Carousel Test</h1>
+        </div>
+    </header>
+
+    <main>
+        <!-- Apple-style Card Carousel -->
+        <div class="rs-cardsshelf">
+            <div class="as-l-container rs-cards-shelf-header">
+                <h2 class="rs-cards-shelf-mainheader">도움의 손길.</h2>
+                <span class="rs-cards-shelf-secondaryheader">언제든, 당신에게 맞는 방식으로.</span>
+            </div>
+            
+            <div class="rf-cards-scroller">
+                <div class="rf-cards-scroller-crop">
+                    <div class="rf-cards-scroller-content">
+                        <div class="rf-cards-scroller-platter" role="list" aria-label="도움의 손길.">
+                            <!-- Card 1 -->
+                            <div role="listitem" class="rf-cards-scroller-itemview">
+                                <div class="rf-ccard">
+                                    <div class="rf-ccard-content rf-ccard-content-withfullimg">
+                                        <div class="rf-ccard-img-full-wrapper">
+                                            <img width="480" height="325" alt="AI 검색 솔루션" src="{% static 'img/carousel/slide1.png' %}" class="rf-ccard-img-full">
+                                        </div>
+                                        <div class="rf-ccard-content-info">
+                                            <h3 class="rf-ccard-content-header-eyebrow">AI 검색 솔루션</h3>
+                                            <div class="rf-ccard-content-header">고객 맞춤형 검색 결과 제공</div>
+                                            <div class="rf-ccard-content-desc">고객이 원하는 상품을 정확하게 찾고, 구매 전환율을 높입니다.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Card 2 -->
+                            <div role="listitem" class="rf-cards-scroller-itemview">
+                                <div class="rf-ccard">
+                                    <div class="rf-ccard-content rf-ccard-content-withfullimg">
+                                        <div class="rf-ccard-img-full-wrapper">
+                                            <img width="480" height="325" alt="데이터 분석 대시보드" src="{% static 'img/carousel/slide2.png' %}" class="rf-ccard-img-full">
+                                        </div>
+                                        <div class="rf-ccard-content-info">
+                                            <h3 class="rf-ccard-content-header-eyebrow">데이터 분석</h3>
+                                            <div class="rf-ccard-content-header">실시간 검색 패턴 분석</div>
+                                            <div class="rf-ccard-content-desc">고객의 검색 패턴을 분석해 최적의 결과를 제공합니다.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Card 3 -->
+                            <div role="listitem" class="rf-cards-scroller-itemview">
+                                <div class="rf-ccard">
+                                    <div class="rf-ccard-content rf-ccard-content-withfullimg">
+                                        <div class="rf-ccard-img-full-wrapper">
+                                            <img width="480" height="325" alt="맞춤형 추천 시스템" src="{% static 'img/carousel/slide3.png' %}" class="rf-ccard-img-full">
+                                        </div>
+                                        <div class="rf-ccard-content-info">
+                                            <h3 class="rf-ccard-content-header-eyebrow">맞춤형 추천</h3>
+                                            <div class="rf-ccard-content-header">고객별 최적화된 상품 추천</div>
+                                            <div class="rf-ccard-content-desc">AI 기반으로 검색 결과를 개인화하여 구매율을 증가시킵니다.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Card 4 -->
+                            <div role="listitem" class="rf-cards-scroller-itemview">
+                                <div class="rf-ccard">
+                                    <div class="rf-ccard-content rf-ccard-content-withfullimg">
+                                        <div class="rf-ccard-img-full-wrapper">
+                                            <img width="480" height="325" alt="키워드 자동 보완" src="{% static 'img/carousel/slide1.png' %}" class="rf-ccard-img-full">
+                                        </div>
+                                        <div class="rf-ccard-content-info">
+                                            <h3 class="rf-ccard-content-header-eyebrow">키워드 자동 보완</h3>
+                                            <div class="rf-ccard-content-header">오타가 있어도, 연관 상품 자동 추천</div>
+                                            <div class="rf-ccard-content-desc">고객이 정확한 키워드를 입력하지 않아도 유사 상품을 자동으로 추천합니다.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Arrows -->
+                <div class="paddlenav">
+                    <button type="button" class="paddlenav-arrow paddlenav-arrow-previous" disabled>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+                                <path d="M21.559,12.062 L15.618,17.984 L21.5221,23.944 C22.105,24.533 22.1021,25.482 21.5131,26.065 C21.2211,26.355 20.8391,26.4999987 20.4571,26.4999987 C20.0711,26.4999987 19.6851,26.352 19.3921,26.056 L12.4351,19.034 C11.8531,18.446 11.8551,17.4999987 12.4411,16.916 L19.4411,9.938 C20.0261,9.353 20.9781,9.354 21.5621,9.941 C22.1471,10.528 22.1451,11.478 21.5591,12.062 L21.559,12.062 Z"></path>
+                            </svg>
+                        </span>
+                        <span class="visuallyhidden">이전 - 도움의 손길.</span>
+                    </button>
+                    <button type="button" class="paddlenav-arrow paddlenav-arrow-next">
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+                                <path d="M23.5587,16.916 C24.1447,17.4999987 24.1467,18.446 23.5647,19.034 L16.6077,26.056 C16.3147,26.352 15.9287,26.4999987 15.5427,26.4999987 C15.1607,26.4999987 14.7787,26.355 14.4867,26.065 C13.8977,25.482 13.8947,24.533 14.4777,23.944 L20.3818,17.984 L14.4408,12.062 C13.8548,11.478 13.8528,10.5279 14.4378,9.941 C15.0218,9.354 15.9738,9.353 16.5588,9.938 L23.5588,16.916 L23.5587,16.916 Z"></path>
+                            </svg>
+                        </span>
+                        <span class="visuallyhidden">다음 - 도움의 손길.</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Original Carousels (Keeping for reference) -->
+        <div class="container mx-auto px-4 py-12">
+            <h2 class="text-3xl font-bold mb-6 text-center">Original Carousel Demos</h2>
+            
+            <!-- Basic Carousel -->
+            <div class="max-w-4xl mx-auto mb-16">
+                <h3 class="text-xl font-bold mb-4">Basic Carousel</h3>
+                
+                <div class="carousel-container rounded-xl shadow-lg">
+                    <!-- Carousel slides -->
+                    <div class="carousel-slides relative">
+                        <div class="carousel-slide fade active">
+                            <img src="{% static 'img/carousel/slide1.png' %}" class="w-full h-[400px] object-cover" alt="Slide 1">
+                            <div class="absolute bottom-0 left-0 right-0 bg-black/60 p-4">
+                                <h3 class="text-xl font-bold">AI 검색 솔루션</h3>
+                                <p class="text-gray-200">고객 맞춤형 검색 결과 제공</p>
+                            </div>
+                        </div>
+                        
+                        <div class="carousel-slide fade">
+                            <img src="{% static 'img/carousel/slide2.png' %}" class="w-full h-[400px] object-cover" alt="Slide 2">
+                            <div class="absolute bottom-0 left-0 right-0 bg-black/60 p-4">
+                                <h3 class="text-xl font-bold">데이터 분석 대시보드</h3>
+                                <p class="text-gray-200">실시간 검색 패턴 분석</p>
+                            </div>
+                        </div>
+                        
+                        <div class="carousel-slide fade">
+                            <img src="{% static 'img/carousel/slide3.png' %}" class="w-full h-[400px] object-cover" alt="Slide 3">
+                            <div class="absolute bottom-0 left-0 right-0 bg-black/60 p-4">
+                                <h3 class="text-xl font-bold">맞춤형 추천 시스템</h3>
+                                <p class="text-gray-200">고객별 최적화된 상품 추천</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Navigation arrows -->
+                        <button class="prev-btn absolute top-1/2 left-4 -translate-y-1/2 bg-black/50 hover:bg-primary text-white p-2 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button class="next-btn absolute top-1/2 right-4 -translate-y-1/2 bg-black/50 hover:bg-primary text-white p-2 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Dots indicator -->
+                    <div class="dots-container flex justify-center mt-4">
+                        <span class="dot active mx-1 w-3 h-3 rounded-full bg-primary cursor-pointer"></span>
+                        <span class="dot mx-1 w-3 h-3 rounded-full bg-gray-400 cursor-pointer"></span>
+                        <span class="dot mx-1 w-3 h-3 rounded-full bg-gray-400 cursor-pointer"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slider Carousel -->
+            <div class="max-w-4xl mx-auto">
+                <h3 class="text-xl font-bold mb-4">Slider Carousel</h3>
+                
+                <div class="slider-container relative rounded-xl shadow-lg overflow-hidden">
+                    <div class="slider-wrapper flex transition-transform duration-500 ease-in-out">
+                        <!-- Slide 1 -->
+                        <div class="slider-slide min-w-full">
+                            <img src="{% static 'img/carousel/slide1.png' %}" class="w-full h-[400px] object-cover" alt="Slide 1">
+                            <div class="absolute bottom-0 left-0 right-0 bg-black/60 p-4">
+                                <h3 class="text-xl font-bold">AI 검색 솔루션</h3>
+                                <p class="text-gray-200">고객 맞춤형 검색 결과 제공</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 2 -->
+                        <div class="slider-slide min-w-full">
+                            <img src="{% static 'img/carousel/slide2.png' %}" class="w-full h-[400px] object-cover" alt="Slide 2">
+                            <div class="absolute bottom-0 left-0 right-0 bg-black/60 p-4">
+                                <h3 class="text-xl font-bold">데이터 분석 대시보드</h3>
+                                <p class="text-gray-200">실시간 검색 패턴 분석</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 3 -->
+                        <div class="slider-slide min-w-full">
+                            <img src="{% static 'img/carousel/slide3.png' %}" class="w-full h-[400px] object-cover" alt="Slide 3">
+                            <div class="absolute bottom-0 left-0 right-0 bg-black/60 p-4">
+                                <h3 class="text-xl font-bold">맞춤형 추천 시스템</h3>
+                                <p class="text-gray-200">고객별 최적화된 상품 추천</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation arrows -->
+                    <button class="slider-prev absolute top-1/2 left-4 -translate-y-1/2 bg-black/50 hover:bg-primary text-white p-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button class="slider-next absolute top-1/2 right-4 -translate-y-1/2 bg-black/50 hover:bg-primary text-white p-2 rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                    
+                    <!-- Dots indicator -->
+                    <div class="slider-dots flex justify-center mt-4">
+                        <span class="slider-dot active mx-1 w-3 h-3 rounded-full bg-primary cursor-pointer"></span>
+                        <span class="slider-dot mx-1 w-3 h-3 rounded-full bg-gray-400 cursor-pointer"></span>
+                        <span class="slider-dot mx-1 w-3 h-3 rounded-full bg-gray-400 cursor-pointer"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white py-6 border-t border-gray-200 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-500">Apple-Style Carousel Test Page © 2025</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Carousels -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apple-style Card Carousel
+            const scroller = document.querySelector('.rf-cards-scroller-content');
+            const prevBtn = document.querySelector('.paddlenav-arrow-previous');
+            const nextBtn = document.querySelector('.paddlenav-arrow-next');
+            const cardWidth = 500; // Card width + padding
+            
+            // Check if scroll is at the beginning or end
+            function checkScrollPosition() {
+                if (scroller.scrollLeft <= 0) {
+                    prevBtn.disabled = true;
+                } else {
+                    prevBtn.disabled = false;
+                }
+                
+                if (scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 10) {
+                    nextBtn.disabled = true;
+                } else {
+                    nextBtn.disabled = false;
+                }
+            }
+            
+            // Initial check
+            checkScrollPosition();
+            
+            // Scroll event listener
+            scroller.addEventListener('scroll', checkScrollPosition);
+            
+            // Previous button click
+            prevBtn.addEventListener('click', function() {
+                scroller.scrollBy({
+                    left: -cardWidth,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Next button click
+            nextBtn.addEventListener('click', function() {
+                scroller.scrollBy({
+                    left: cardWidth,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Basic Carousel
+            const slides = document.querySelectorAll('.carousel-slide');
+            const dots = document.querySelectorAll('.dot');
+            const prevBtnBasic = document.querySelector('.prev-btn');
+            const nextBtnBasic = document.querySelector('.next-btn');
+            let currentSlide = 0;
+
+            // Show the current slide
+            function showSlide(n) {
+                // Reset current slide
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                });
+                dots.forEach(dot => {
+                    dot.classList.remove('bg-primary');
+                    dot.classList.add('bg-gray-400');
+                });
+                
+                // Set new current slide
+                currentSlide = (n + slides.length) % slides.length;
+                slides[currentSlide].classList.add('active');
+                dots[currentSlide].classList.remove('bg-gray-400');
+                dots[currentSlide].classList.add('bg-primary');
+            }
+
+            // Next/previous controls
+            prevBtnBasic.addEventListener('click', () => {
+                showSlide(currentSlide - 1);
+                resetAutoSlide();
+            });
+            
+            nextBtnBasic.addEventListener('click', () => {
+                showSlide(currentSlide + 1);
+                resetAutoSlide();
+            });
+
+            // Dot controls
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    showSlide(index);
+                    resetAutoSlide();
+                });
+            });
+
+            // Auto slide
+            let slideInterval = setInterval(() => showSlide(currentSlide + 1), 5000);
+            
+            function resetAutoSlide() {
+                clearInterval(slideInterval);
+                slideInterval = setInterval(() => showSlide(currentSlide + 1), 5000);
+            }
+
+            // Slider Carousel
+            const sliderWrapper = document.querySelector('.slider-wrapper');
+            const sliderSlides = document.querySelectorAll('.slider-slide');
+            const sliderDots = document.querySelectorAll('.slider-dot');
+            const sliderPrevBtn = document.querySelector('.slider-prev');
+            const sliderNextBtn = document.querySelector('.slider-next');
+            let currentSliderIndex = 0;
+            const slideCount = sliderSlides.length;
+
+            // Update slider position
+            function updateSlider() {
+                sliderWrapper.style.transform = `translateX(-${currentSliderIndex * 100}%)`;
+                
+                // Update dots
+                sliderDots.forEach((dot, index) => {
+                    if (index === currentSliderIndex) {
+                        dot.classList.add('bg-primary');
+                        dot.classList.remove('bg-gray-400');
+                    } else {
+                        dot.classList.remove('bg-primary');
+                        dot.classList.add('bg-gray-400');
+                    }
+                });
+            }
+
+            // Next/previous controls
+            sliderPrevBtn.addEventListener('click', () => {
+                currentSliderIndex = (currentSliderIndex - 1 + slideCount) % slideCount;
+                updateSlider();
+                resetSliderAutoSlide();
+            });
+            
+            sliderNextBtn.addEventListener('click', () => {
+                currentSliderIndex = (currentSliderIndex + 1) % slideCount;
+                updateSlider();
+                resetSliderAutoSlide();
+            });
+
+            // Dot controls
+            sliderDots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentSliderIndex = index;
+                    updateSlider();
+                    resetSliderAutoSlide();
+                });
+            });
+
+            // Auto slide
+            let sliderInterval = setInterval(() => {
+                currentSliderIndex = (currentSliderIndex + 1) % slideCount;
+                updateSlider();
+            }, 5000);
+            
+            function resetSliderAutoSlide() {
+                clearInterval(sliderInterval);
+                sliderInterval = setInterval(() => {
+                    currentSliderIndex = (currentSliderIndex + 1) % slideCount;
+                    updateSlider();
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html> 

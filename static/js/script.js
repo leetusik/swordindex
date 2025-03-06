@@ -64,6 +64,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+
+  // Carousel Functionality
+  initCarousel();
 });
 
 // HTMX form handling
@@ -104,3 +107,102 @@ document.addEventListener("htmx:afterRequest", function (event) {
     event.detail.elt.reset();
   }
 });
+
+// Function to initialize carousel
+function initCarousel() {
+  // Get carousel elements
+  const carousel = document.getElementById("carousel");
+  const carouselInner = document.getElementById("carousel-inner");
+  const prevBtn = document.getElementById("prev-btn");
+  const nextBtn = document.getElementById("next-btn");
+  const indicators = document.querySelectorAll(".slide-indicator");
+
+  // Check if carousel elements exist
+  if (!carousel || !carouselInner) {
+    console.log("Primary carousel elements not found");
+    return;
+  }
+
+  console.log("Carousel found:", carousel);
+  console.log("Carousel inner found:", carouselInner);
+
+  let currentIndex = 0;
+  const slideCount = carouselInner.children.length;
+
+  console.log("Carousel initialized with", slideCount, "slides");
+
+  // Initialize carousel
+  updateCarousel();
+
+  // Next slide button
+  if (nextBtn) {
+    console.log("Next button found");
+    nextBtn.addEventListener("click", function () {
+      console.log("Next button clicked");
+      currentIndex = (currentIndex + 1) % slideCount;
+      updateCarousel();
+    });
+  }
+
+  // Previous slide button
+  if (prevBtn) {
+    console.log("Prev button found");
+    prevBtn.addEventListener("click", function () {
+      console.log("Prev button clicked");
+      currentIndex = (currentIndex - 1 + slideCount) % slideCount;
+      updateCarousel();
+    });
+  }
+
+  // Indicator buttons
+  if (indicators.length > 0) {
+    console.log("Indicators found:", indicators.length);
+    indicators.forEach((indicator, idx) => {
+      indicator.addEventListener("click", function () {
+        console.log("Indicator clicked:", idx);
+        currentIndex = parseInt(this.dataset.index || idx);
+        updateCarousel();
+      });
+    });
+  }
+
+  // Auto slide every 5 seconds
+  let interval = setInterval(() => {
+    currentIndex = (currentIndex + 1) % slideCount;
+    updateCarousel();
+  }, 5000);
+
+  // Pause auto slide on hover
+  carousel.addEventListener("mouseenter", () => {
+    clearInterval(interval);
+  });
+
+  // Resume auto slide when mouse leaves
+  carousel.addEventListener("mouseleave", () => {
+    interval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % slideCount;
+      updateCarousel();
+    }, 5000);
+  });
+
+  // Function to update carousel position and indicators
+  function updateCarousel() {
+    console.log("Updating carousel to index:", currentIndex);
+
+    // Update slide position
+    carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+    // Update indicators
+    if (indicators.length > 0) {
+      indicators.forEach((indicator, index) => {
+        if (index === currentIndex) {
+          indicator.classList.add("bg-white");
+          indicator.classList.remove("bg-white/50");
+        } else {
+          indicator.classList.remove("bg-white");
+          indicator.classList.add("bg-white/50");
+        }
+      });
+    }
+  }
+}

@@ -26,6 +26,7 @@ urlpatterns = [
     path("asks/", include("asks.urls")),
     path("privacy-policy/", views.privacy_policy, name="privacy_policy"),
     path("test-static/", views.test_static, name="test_static"),
-    path("api/kimchi/", views.handle_kimchi, name="handle_kimchi"),
     path("direct-image/", views.direct_image, name="direct_image"),
+    path("search/api/", views.search_api, name="search_api"),
+    path("test/", views.test, name="test"),
 ]
