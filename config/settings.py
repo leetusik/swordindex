@@ -57,7 +57,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "config.middleware.StaticFilesDebugMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -140,23 +139,13 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-# Explicitly set STATICFILES_DIRS with absolute paths
+# Define where Django should look for static files during development
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-# Make sure STATIC_ROOT is an absolute path
+# Define where collectstatic will put files for production
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-# Define which finders Django uses to locate static files
-STATICFILES_FINDERS = [
-    "django.contrib.staticfiles.finders.FileSystemFinder",
-    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
-]
-
-# Use simple StaticFilesStorage for both development and production
-# This avoids manifest issues that can occur with ManifestStaticFilesStorage
-STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
