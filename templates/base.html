@@ -1,0 +1,222 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VNVPGQBSTV"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-VNVPGQBSTV');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Swordindex - AI 기반 검색 솔루션{% endblock %}</title>
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'favicon/favicon.svg' %}" type="image/svg+xml">
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#375DE8',
+                        dark: '#111111',
+                        light: '#FFFFFF',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom CSS -->
+    <style>
+        /* Carousel Styles */
+        #carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+        
+        #carousel-inner > div {
+            width: 100%;
+            flex: 0 0 100%;
+        }
+        
+        .slide-indicator.active {
+            background-color: white;
+        }
+        
+        /* Image loading placeholder */
+        .carousel-img-container {
+            position: relative;
+            background-color: #1a1a1a;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            overflow: hidden;
+        }
+        
+        .carousel-img-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .carousel-img-container img.loaded {
+            opacity: 1;
+        }
+        
+        .carousel-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #375DE8;
+            font-size: 1.5rem;
+        }
+    </style>
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-black text-white">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="{% static 'img/logo.png' %}" alt="LOGO" class="h-10">
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#" class="text-white hover:text-primary transition">홈</a>
+                <a href="#features" class="text-white hover:text-primary transition">특징</a>
+                <a href="#contact" class="text-white hover:text-primary transition">문의하기</a>
+            </nav>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-toggle" class="md:hidden text-white text-2xl">
+                ☰
+            </button>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <nav id="mobile-menu" class="hidden bg-dark md:hidden">
+            <div class="container mx-auto px-4 py-2">
+                <a href="#" class="block py-3 text-white hover:text-primary border-b border-gray-800">홈</a>
+                <a href="#features" class="block py-3 text-white hover:text-primary border-b border-gray-800">특징</a>
+                <a href="#contact" class="block py-3 text-white hover:text-primary">문의하기</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark py-10 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <img src="{% static 'img/logo.png' %}" alt="LOGO" class="h-10 mb-4">
+                    <p class="text-gray-400 text-sm">swordindex @ 2025. All rights reserved.</p>
+                </div>
+                
+                <div class="text-center md:text-right">
+                    <p class="text-gray-400 text-sm mb-2">
+                        대표 차재민 | 서울특별시 종로구 율곡로 174 B1
+                    </p>
+                    <p class="text-gray-400 text-sm flex flex-wrap justify-center md:justify-end gap-x-4">
+                        <span>010 3772 9916</span>
+                        <a href="javascript:void(0)" 
+                           hx-get="{% url 'privacy_policy' %}" 
+                           hx-target="#modalContent" 
+                           hx-trigger="click" 
+                           hx-swap="innerHTML" 
+                           onclick="openModal()" 
+                           class="text-primary hover:underline">
+                            개인정보처리방침
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="privacyModal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4">
+        <div class="bg-dark max-w-2xl w-full max-h-[80vh] overflow-y-auto rounded-xl">
+            <div class="flex justify-between items-center p-6 border-b border-gray-700">
+                <h3 class="text-xl font-bold">개인정보 처리방침</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+            </div>
+            <div id="modalContent" class="p-6"></div>
+        </div>
+    </div>
+
+    <!-- Common JavaScript -->
+    <script>
+        function openModal() {
+            const modal = document.getElementById("privacyModal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+            document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("privacyModal");
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+            document.body.style.overflow = ""; // Restore scrolling
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            // Mobile Menu Toggle
+            const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+            const mobileMenu = document.getElementById("mobile-menu");
+            
+            if (mobileMenuToggle && mobileMenu) {
+                console.log("Mobile menu components found");
+                
+                mobileMenuToggle.addEventListener("click", function() {
+                    console.log("Mobile menu toggle clicked");
+                    mobileMenu.classList.toggle("hidden");
+                });
+                
+                // Close menu when clicking a link
+                const mobileMenuLinks = mobileMenu.querySelectorAll("a");
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener("click", function() {
+                        mobileMenu.classList.add("hidden");
+                    });
+                });
+            } else {
+                console.log("Mobile menu components not found");
+            }
+            
+            // Close modal when clicking outside of content
+            const modal = document.getElementById("privacyModal");
+            if (modal) {
+                modal.addEventListener("click", function(event) {
+                    if (event.target === modal) {
+                        closeModal();
+                    }
+                });
+            }
+        });
+    </script>
+    
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html> 
