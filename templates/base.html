@@ -94,7 +94,9 @@
     <header class="sticky top-0 z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center">
-                <img src="{% static 'img/logo.png' %}" alt="LOGO" class="h-10">
+                <a href="{% url 'index' %}" id="logo-link" class="cursor-pointer">
+                    <img src="{% static 'img/logo.png' %}" alt="LOGO" class="h-10">
+                </a>
             </div>
             
             <!-- Desktop Navigation -->
@@ -182,6 +184,25 @@
         }
         
         document.addEventListener("DOMContentLoaded", function() {
+            // Logo click handler
+            const logoLink = document.getElementById("logo-link");
+            if (logoLink) {
+                logoLink.addEventListener("click", function(e) {
+                    // Check if we're already on the main page
+                    if (window.location.pathname === "/" || 
+                        window.location.pathname === "/index" || 
+                        window.location.pathname === "/index.html") {
+                        e.preventDefault(); // Prevent default link behavior
+                        // Smooth scroll to top
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "smooth"
+                        });
+                    }
+                    // Otherwise, the link will navigate to the home page normally
+                });
+            }
+            
             // Mobile Menu Toggle
             const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
             const mobileMenu = document.getElementById("mobile-menu");
