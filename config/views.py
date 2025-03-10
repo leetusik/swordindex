@@ -104,3 +104,7 @@ def test(request):
 def sitemap_html(request):
     """HTML sitemap page for users and search engines"""
     return render(request, "sitemap.html")
+
+
+def naver(request):
+    return render(request, "naver4483f8bee1728b2ccd7fe7f648565f14.html")
