@@ -32,5 +32,5 @@ urlpatterns = [
     path("robots.txt", views.robots_txt, name="robots_txt"),
     path("sitemap.xml", views.sitemap_xml, name="sitemap_xml"),
     path("sitemap/", views.sitemap_html, name="sitemap_html"),
-    path("naver/", views.naver, name="naver"),
+    path("naver4483f8bee1728b2ccd7fe7f648565f14.html/", views.naver, name="naver"),
 ]
