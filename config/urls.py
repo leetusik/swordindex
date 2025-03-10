@@ -29,4 +29,7 @@ urlpatterns = [
     path("direct-image/", views.direct_image, name="direct_image"),
     path("search/api/", views.search_api, name="search_api"),
     path("test/", views.test, name="test"),
+    path("robots.txt", views.robots_txt, name="robots_txt"),
+    path("sitemap.xml", views.sitemap_xml, name="sitemap_xml"),
+    path("sitemap/", views.sitemap_html, name="sitemap_html"),
 ]

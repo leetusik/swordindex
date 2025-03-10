@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}사이트맵 - Swordindex{% endblock %}
+
+{% block meta_description %}Swordindex 웹사이트의 모든 페이지를 한눈에 볼 수 있는 사이트맵입니다.{% endblock %}
+
+{% block content %}
+<section class="py-16 md:py-24">
+    <div class="container mx-auto px-4">
+        <h1 class="text-3xl md:text-4xl font-bold mb-8">사이트맵</h1>
+        
+        <div class="bg-dark/30 rounded-xl p-8 mb-8">
+            <h2 class="text-xl font-bold mb-4">주요 페이지</h2>
+            <ul class="space-y-2">
+                <li>
+                    <a href="{% url 'index' %}" class="text-primary hover:underline">홈페이지</a>
+                    <p class="text-gray-400 text-sm">AI 기반 검색 솔루션 소개 및 주요 기능</p>
+                </li>
+                <li>
+                    <a href="{% url 'privacy_policy' %}" class="text-primary hover:underline">개인정보처리방침</a>
+                    <p class="text-gray-400 text-sm">개인정보 수집 및 이용에 관한 안내</p>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="bg-dark/30 rounded-xl p-8">
+            <h2 class="text-xl font-bold mb-4">서비스 소개</h2>
+            <ul class="space-y-2">
+                <li>
+                    <a href="/#features" class="text-primary hover:underline">주요 기능</a>
+                    <p class="text-gray-400 text-sm">AI 검색 솔루션의 주요 기능 소개</p>
+                </li>
+                <li>
+                    <a href="/#contact" class="text-primary hover:underline">문의하기</a>
+                    <p class="text-gray-400 text-sm">서비스 문의 및 상담 신청</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+{% endblock %} 

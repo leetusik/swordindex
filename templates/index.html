@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}Swordindex - 이커머스를 위한 AI 기반 검색 솔루션 | 검색 정확도 30% 향상{% endblock %}
+
+{% block meta_description %}Swordindex의 AI 기반 검색 솔루션으로 이커머스 검색 정확도를 30% 향상시키고 이탈율을 25% 감소시키세요. 한국 중소기업을 위한 맞춤형 검색 서비스로 고객 전환율을 높이세요.{% endblock %}
+
+{% block meta_keywords %}AI 검색 솔루션, 이커머스 검색, 쇼핑몰 검색 최적화, 검색 정확도 향상, 이탈율 감소, 한국 이커머스, 중소기업 솔루션, 검색 엔진 최적화{% endblock %}
+
+{% block og_title %}Swordindex - 이커머스를 위한 AI 기반 검색 솔루션 | 검색 정확도 30% 향상{% endblock %}
+
+{% block og_description %}Swordindex의 AI 기반 검색 솔루션으로 이커머스 검색 정확도를 30% 향상시키고 이탈율을 25% 감소시키세요. 한국 중소기업을 위한 맞춤형 검색 서비스로 고객 전환율을 높이세요.{% endblock %}
+
 {% block extra_head %}
 <!-- Google tag (gtag.js) -->
 <meta charset="UTF-8">
@@ -179,37 +189,40 @@
         </h2>
         <div class="w-24 h-1 bg-primary mx-auto mb-16 rounded-full"></div>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8" itemscope itemtype="http://schema.org/ItemList">
             <!-- Feature 1 -->
-            <div class="bg-white rounded-xl p-8 hover:shadow-xl transition border border-primary/20 shadow-lg">
-                <div class="flex flex-col items-center text-center">
+            <div class="bg-white rounded-xl p-8 hover:shadow-xl transition border border-primary/20 shadow-lg" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <meta itemprop="position" content="1" />
+                <div class="flex flex-col items-center text-center" itemprop="item" itemscope itemtype="http://schema.org/Service">
                     <div class="w-20 h-20 flex items-center justify-center bg-primary/20 rounded-full mb-6">
                         <img src="{% static 'img/icon1.png' %}" alt="유사 상품 자동 추천" class="w-12 h-12">
                     </div>
-                    <h3 class="text-xl font-bold mb-4 text-dark">유사 상품 자동<br>추천</h3>
-                    <p class="text-gray-600">고객이 정확한 키워드를 입력하지 않아도 유사 상품 자동 추천</p>
+                    <h3 class="text-xl font-bold mb-4 text-dark" itemprop="name">유사 상품 자동<br>추천</h3>
+                    <p class="text-gray-600" itemprop="description">고객이 정확한 키워드를 입력하지 않아도 유사 상품 자동 추천</p>
                 </div>
             </div>
             
             <!-- Feature 2 -->
-            <div class="bg-white rounded-xl p-8 hover:shadow-xl transition border border-primary/20 shadow-lg">
-                <div class="flex flex-col items-center text-center">
+            <div class="bg-white rounded-xl p-8 hover:shadow-xl transition border border-primary/20 shadow-lg" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <meta itemprop="position" content="2" />
+                <div class="flex flex-col items-center text-center" itemprop="item" itemscope itemtype="http://schema.org/Service">
                     <div class="w-20 h-20 flex items-center justify-center bg-primary/20 rounded-full mb-6">
                         <img src="{% static 'img/icon2.png' %}" alt="이탈율 감소" class="w-12 h-12">
                     </div>
-                    <h3 class="text-xl font-bold mb-4 text-dark">이탈율 감소</h3>
-                    <p class="text-gray-600">쇼핑몰 검색 정확도 30% 향상, 이탈율 25% 감소</p>
+                    <h3 class="text-xl font-bold mb-4 text-dark" itemprop="name">이탈율 감소</h3>
+                    <p class="text-gray-600" itemprop="description">쇼핑몰 검색 정확도 30% 향상, 이탈율 25% 감소</p>
                 </div>
             </div>
             
             <!-- Feature 3 -->
-            <div class="bg-white rounded-xl p-8 hover:shadow-xl transition border border-primary/20 shadow-lg">
-                <div class="flex flex-col items-center text-center">
+            <div class="bg-white rounded-xl p-8 hover:shadow-xl transition border border-primary/20 shadow-lg" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                <meta itemprop="position" content="3" />
+                <div class="flex flex-col items-center text-center" itemprop="item" itemscope itemtype="http://schema.org/Service">
                     <div class="w-20 h-20 flex items-center justify-center bg-primary/20 rounded-full mb-6">
                         <img src="{% static 'img/icon3.png' %}" alt="구매율 증가" class="w-12 h-12">
                     </div>
-                    <h3 class="text-xl font-bold mb-4 text-dark">구매율 증가</h3>
-                    <p class="text-gray-600">AI 기반으로 검색 결과를 개인화하여 구매율 증가</p>
+                    <h3 class="text-xl font-bold mb-4 text-dark" itemprop="name">구매율 증가</h3>
+                    <p class="text-gray-600" itemprop="description">AI 기반으로 검색 결과를 개인화하여 구매율 증가</p>
                 </div>
             </div>
         </div>

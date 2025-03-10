@@ -37,6 +37,26 @@ def direct_image(request):
         return HttpResponse(f"Image not found at {image_path}", status=404)
 
 
+@require_GET
+def robots_txt(request):
+    """Serve robots.txt file"""
+    robots_path = os.path.join(settings.BASE_DIR, "static", "robots.txt")
+    if os.path.exists(robots_path):
+        return HttpResponse(open(robots_path).read(), content_type="text/plain")
+    else:
+        return HttpResponse("User-agent: *\nAllow: /", content_type="text/plain")
+
+
+@require_GET
+def sitemap_xml(request):
+    """Serve sitemap.xml file"""
+    sitemap_path = os.path.join(settings.BASE_DIR, "static", "sitemap.xml")
+    if os.path.exists(sitemap_path):
+        return HttpResponse(open(sitemap_path).read(), content_type="application/xml")
+    else:
+        return HttpResponse("Sitemap not found", status=404)
+
+
 def load_vector_store():
     """Load the saved vector store"""
     embeddings = OpenAIEmbeddings(
@@ -79,3 +99,8 @@ def search_api(request):
 def test(request):
     """Test page for testing"""
     return render(request, "test.html")
+
+
+def sitemap_html(request):
+    """HTML sitemap page for users and search engines"""
+    return render(request, "sitemap.html")
